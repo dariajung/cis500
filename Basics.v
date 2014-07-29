@@ -596,20 +596,20 @@ Definition blt_nat (n m : nat) : bool :=
   (* FILL IN HERE *)
   match (beq_nat n m) with
   | true => false
-  | false => match (ble_nat) with
+  | false => match (ble_nat n m) with
              | true => true
              | false => false
              end
   end.
   
-Eval compute in (blt_nat 1 1).
+Eval compute in (blt_nat 11 10).
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 (** [] *)
 
 (* ###################################################################### *)
@@ -740,7 +740,11 @@ Proof.
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m o.
+  intros H H'.
+  rewrite -> H.
+  rewrite <- H'.  
+  reflexivity. Qed.
 (** [] *)
 
 (** As we've seen in earlier examples, the [Admitted] command
@@ -770,7 +774,10 @@ Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m.
+  intros H.
+  rewrite -> H.
+  reflexivity. Qed.
 (** [] *)
 
 
