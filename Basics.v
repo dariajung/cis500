@@ -956,14 +956,14 @@ Proof.
 (* ###################################################################### *)
 (** * Optional Material *)
 
-(** ** More on Notation *).
+(** ** More on Notation *)
 
-Notation "x + y" := (plus x y)  
+(*Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 
                        : nat_scope.
 Notation "x * y" := (mult x y)  
                        (at level 40, left associativity) 
-                       : nat_scope.
+                       : nat_scope.*)
 
 (** For each notation-symbol in Coq we can specify its _precedence level_
     and its _associativity_. The precedence level n can be specified by the
