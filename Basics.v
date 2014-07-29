@@ -383,6 +383,8 @@ Definition minustwo (n : nat) : nat :=
 Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
 
+Eval compute in (minustwo 12).
+
 (** The constructor [S] has the type [nat -> nat], just like the
     functions [minustwo] and [pred]: *)
 
@@ -411,6 +413,9 @@ Fixpoint evenb (n:nat) : bool :=
   | S (S n') => evenb n'
   end.
 
+
+Eval compute in (evenb 102).
+
 (** We can define [oddb] by a similar [Fixpoint] declaration, but here
     is a simpler definition that will be a bit easier to work with: *)
 
@@ -436,6 +441,8 @@ Fixpoint plus (n : nat) (m : nat) : nat :=
 (** Adding three to two now gives us five, as we'd expect. *)
 
 Eval compute in (plus (S (S (S O))) (S (S O))).
+
+Eval compute in (S(O)).
 
 (** The simplification that Coq performs to reach this conclusion can
     be visualized as follows: *)
@@ -471,6 +478,9 @@ Fixpoint minus (n m:nat) : nat :=
   | S n', S m' => minus n' m'
   end.
 
+
+Eval compute in O.
+
 (** The _ in the first line is a _wildcard pattern_.  Writing _ in a
     pattern is the same as writing some variable that doesn't get used
     on the right-hand side.  This avoids the need to invent a bogus
@@ -493,12 +503,18 @@ Fixpoint exp (base power : nat) : nat :=
     Translate this into Coq. *)
 
 Fixpoint factorial (n:nat) : nat := 
-(* FILL IN HERE *) admit.
+(* FILL IN HERE *)
+  match n with
+  | O => 1
+  | S x => mult (S x) (factorial x)
+end.
 
+Eval compute in (factorial 3).
+Eval compute in (factorial 5).
 Example test_factorial1:          (factorial 3) = 6.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 Example test_factorial2:          (factorial 5) = (mult 10 12).
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 (** [] *)
 
 (** We can make numerical expressions a little easier to read and
@@ -577,7 +593,16 @@ Proof. reflexivity.  Qed.
     simple, elegant solution for which [simpl] suffices. *)
 
 Definition blt_nat (n m : nat) : bool :=
-  (* FILL IN HERE *) admit.
+  (* FILL IN HERE *)
+  match (beq_nat n m) with
+  | true => false
+  | false => match (ble_nat) with
+             | true => true
+             | false => false
+             end
+  end.
+  
+Eval compute in (blt_nat 1 1).
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
 (* FILL IN HERE *) Admitted.
