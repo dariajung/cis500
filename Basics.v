@@ -863,7 +863,10 @@ Proof.
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n. destruct n.
+  reflexivity.
+  reflexivity.
+  Qed.
 (** [] *)
 
 (* ###################################################################### *)
@@ -878,8 +881,14 @@ Theorem identity_fn_applied_twice :
   (forall (x : bool), f x = x) ->
   forall (b : bool), f (f b) = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
-
+  intros f x b. destruct b.
+  rewrite -> x.
+  rewrite <- x.
+  reflexivity.
+  rewrite <- x.
+  rewrite -> x.
+  reflexivity.
+  Qed.
 (** Now state and prove a theorem [negation_fn_applied_twice] similar
     to the previous one but where the second hypothesis says that the
     function [f] has the property that [f x = negb x].*)
@@ -896,7 +905,15 @@ Theorem andb_eq_orb :
   (andb b c = orb b c) ->
   b = c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
+  destruct b.
+  destruct c.
+  reflexivity.
+  simpl in H. rewrite H.
+  reflexivity.
+  simpl in H. rewrite H.
+  reflexivity.
+  Qed.
 
 (** **** Exercise: 3 stars (binary) *)
 (** Consider a different, more efficient representation of natural
@@ -939,7 +956,7 @@ Proof.
 (* ###################################################################### *)
 (** * Optional Material *)
 
-(** ** More on Notation *)
+(** ** More on Notation *).
 
 Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 
