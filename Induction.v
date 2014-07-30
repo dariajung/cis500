@@ -400,16 +400,13 @@ Theorem plus_swap : forall n m p : nat,
   n + (m + p) = m + (n + p).
 Proof.
   intros.
-  assert (H: (n + m) + p = n + (m + p)).
-    Case "Proof of assertion".
-    rewrite -> plus_assoc. reflexivity.
-  assert (H1: m + n + p = m + (n + p)). 
+  assert (H1: (n + m) + p = n + (m + p)).
     Case "Proof of assertion".
     rewrite -> plus_assoc. reflexivity.
   assert (H2: (m + n) + p = m + (n + p)).
     Case "Proof of assertion".
     rewrite -> plus_assoc. reflexivity.
-  rewrite <- H.
+  rewrite <- H1.
   rewrite <- H2.
   assert (H3: n + m = m + n).
     Case "proof of assertion".
@@ -418,18 +415,51 @@ Proof.
   reflexivity.
 Qed.
 
-(* FILL IN HERE *) Admitted.
-
-
 (** Now prove commutativity of multiplication.  (You will probably
     need to define and prove a separate subsidiary theorem to be used
     in the proof of this one.)  You may find that [plus_swap] comes in
     handy. *)
 
-Theorem mult_comm : forall m n : nat,4
+Theorem mult_to_Sm : forall m n : nat,
+  m + m * n = m * S n.
+Proof.
+  intros. induction m as [| m'].
+  Case "m = 0.".
+    simpl. reflexivity.
+  Case "m = S m'".
+   simpl.
+   rewrite <- IHm'.
+   rewrite -> plus_swap.
+   reflexivity.
+Qed.
+
+Theorem mult_m_Sm : forall m n : nat,
+  m * S n = m + n * m.
+Proof.
+  intros. induction m as [| m'].
+  Case "m = 0".
+    simpl. rewrite -> mult_0_r. reflexivity.
+  Case "m = S m'".
+    simpl.
+    rewrite -> IHm'.
+    rewrite -> plus_swap.
+    rewrite -> mult_to_Sm.
+    reflexivity.
+Qed.
+
+Theorem mult_comm : forall m n : nat,
  m * n = n * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n as [| n'].
+  Case "n = 0".
+    simpl.
+    rewrite -> mult_0_r. reflexivity.
+  Case "n = S n'".
+    simpl.
+    rewrite -> mult_m_Sm.
+    reflexivity.
+Qed.
+
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (evenb_n__oddb_Sn) *)
