@@ -469,7 +469,18 @@ Qed.
 Theorem evenb_n__oddb_Sn : forall n : nat,
   evenb n = negb (evenb (S n)).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n as [| n'].
+  Case "n = 0".
+  simpl. reflexivity.
+  Case "n = S n'".
+  simpl.
+  rewrite -> IHn'.
+  rewrite -> negb_involutive.
+  destruct n'.
+  simpl. reflexivity.
+  simpl. reflexivity.
+Qed.
+
 (** [] *)
 
 (* ###################################################################### *)
@@ -543,7 +554,7 @@ problem using the theorem no matter which way we state it. *)
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (plus_swap') *)
