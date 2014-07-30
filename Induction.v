@@ -303,6 +303,11 @@ Qed.
 (** Briefly explain the difference between the tactics
     [destruct] and [induction].  
 
+(* Destruct generates subgoals for each possible form of the 
+term, one for each constructor of the inductive/co-inductive
+type. Induction does this but also generates an induction
+hypothesis.  *)
+
 (* FILL IN HERE *)
 
 *)
@@ -386,6 +391,7 @@ Proof.
     rewrite -> plus_comm. reflexivity.
   rewrite -> H. reflexivity.  Qed.
 
+
 (** **** Exercise: 4 stars (mult_comm) *)
 (** Use [assert] to help prove this theorem.  You shouldn't need to
     use induction. *)
@@ -393,7 +399,26 @@ Proof.
 Theorem plus_swap : forall n m p : nat, 
   n + (m + p) = m + (n + p).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
+  assert (H: (n + m) + p = n + (m + p)).
+    Case "Proof of assertion".
+    rewrite -> plus_assoc. reflexivity.
+  assert (H1: m + n + p = m + (n + p)). 
+    Case "Proof of assertion".
+    rewrite -> plus_assoc. reflexivity.
+  assert (H2: (m + n) + p = m + (n + p)).
+    Case "Proof of assertion".
+    rewrite -> plus_assoc. reflexivity.
+  rewrite <- H.
+  rewrite <- H2.
+  assert (H3: n + m = m + n).
+    Case "proof of assertion".
+    rewrite -> plus_comm. reflexivity.
+  rewrite -> H3.
+  reflexivity.
+Qed.
+
+(* FILL IN HERE *) Admitted.
 
 
 (** Now prove commutativity of multiplication.  (You will probably
@@ -401,7 +426,7 @@ Proof.
     in the proof of this one.)  You may find that [plus_swap] comes in
     handy. *)
 
-Theorem mult_comm : forall m n : nat,
+Theorem mult_comm : forall m n : nat,4
  m * n = n * m.
 Proof.
   (* FILL IN HERE *) Admitted.
