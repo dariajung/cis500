@@ -781,13 +781,32 @@ Proof.
 Theorem app_nil_end : forall l : natlist, 
   l ++ [] = l.   
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction l as [| n l'].
+  Case "[]".
+  simpl. reflexivity.
+  Case "l1 = cons".
+  simpl. rewrite IHl'. reflexivity.
+Qed.
 
+Theorem rev_snoc : forall l : natlist, forall n : nat,
+  rev (snoc l n) = n :: (rev l).
+Proof.
+  intros. induction l.
+  Case "nil".
+  simpl. reflexivity.
+  Case "l = cons".  
+  simpl. rewrite IHl. simpl. reflexivity.
+Qed.
 
 Theorem rev_involutive : forall l : natlist,
   rev (rev l) = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction l.
+  Case "nil".
+  simpl. reflexivity.
+  Case "cons".
+  simpl. rewrite rev_snoc. rewrite IHl. reflexivity.
+Qed.
 
 (** There is a short solution to the next exercise.  If you find
     yourself getting tangled up, step back and try to look for a
@@ -796,7 +815,8 @@ Proof.
 Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
   l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. rewrite app_assoc. rewrite app_assoc. reflexivity.
+Qed.
 
 Theorem snoc_append : forall (l:natlist) (n:nat),
   snoc l n = l ++ [n].
