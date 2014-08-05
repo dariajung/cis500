@@ -596,7 +596,11 @@ problem using the theorem no matter which way we state it. *)
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
 Proof.
-  intros.
+  intros. induction n as [| n'].
+  simpl. reflexivity.
+  simpl. rewrite IHn'. reflexivity.
+Qed.
+
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (plus_swap') *)
