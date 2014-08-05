@@ -821,20 +821,39 @@ Qed.
 Theorem snoc_append : forall (l:natlist) (n:nat),
   snoc l n = l ++ [n].
 Proof.
-  (* FILL IN HERE *) Admitted.
-
+  intros. induction l.
+  Case "[]".
+  simpl. reflexivity.
+  Case "cons".
+  simpl. rewrite IHl. reflexivity.
+Qed.
 
 Theorem distr_rev : forall l1 l2 : natlist,
   rev (l1 ++ l2) = (rev l2) ++ (rev l1).
 Proof.
-  (* FILL IN HERE *) Admitted.
-
-(** An exercise about your implementation of [nonzeros]: *)
+  intros. induction l1.
+  Case "[]".
+  simpl. rewrite app_nil_end. reflexivity.
+  Case "l1 = cons".
+  simpl. 
+  rewrite snoc_append. 
+  rewrite IHl1. 
+  rewrite snoc_append. 
+  rewrite app_assoc.
+  reflexivity.
+Qed.
 
 Lemma nonzeros_app : forall l1 l2 : natlist,
   nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction l1.
+  Case "[]".
+  simpl. reflexivity.
+  Case "cons".
+    destruct n as [| n'].
+    simpl. apply IHl1.
+    simpl. rewrite IHl1. reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars (beq_natlist) *)
@@ -843,19 +862,42 @@ Proof.
     yields [true] for every list [l]. *)
 
 Fixpoint beq_natlist (l1 l2 : natlist) : bool :=
-  (* FILL IN HERE *) admit.
+  match l1 with
+  | nil => match l2 with
+           | nil => true
+           | _   => false
+           end
+  | h :: t => match l2 with
+              | nil => false
+              | x :: xs => match (beq_nat h x) with
+                           | true => beq_natlist t xs
+                           | false => false
+end
+end
+end.
 
 Example test_beq_natlist1 :   (beq_natlist nil nil = true).
- (* FILL IN HERE *) Admitted.
+Proof. simpl. reflexivity. Qed.
 Example test_beq_natlist2 :   beq_natlist [1;2;3] [1;2;3] = true.
- (* FILL IN HERE *) Admitted.
+Proof. simpl. reflexivity. Qed.
 Example test_beq_natlist3 :   beq_natlist [1;2;3] [1;2;4] = false.
- (* FILL IN HERE *) Admitted.
+Proof. simpl. reflexivity. Qed.
+
+Theorem beq_nat_refl : forall n:nat,
+  true = beq_nat n n.
+Proof.
+  intros. induction n.
+  simpl.  reflexivity.
+  simpl. rewrite IHn. reflexivity.
+Qed.
 
 Theorem beq_natlist_refl : forall l:natlist,
-  true = beq_natlist l l.
+   beq_natlist l l = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+   intros. induction l.
+   simpl. reflexivity.
+   simpl. rewrite <- beq_nat_refl. rewrite IHl. reflexivity.
+Qed.
 (** [] *)
 
 (* ###################################################### *)
