@@ -892,7 +892,7 @@ Proof.
 Qed.
 
 Theorem beq_natlist_refl : forall l:natlist,
-   beq_natlist l l = true.
+   true = beq_natlist l l.
 Proof.
    intros. induction l.
    simpl. reflexivity.
@@ -1104,8 +1104,10 @@ Fixpoint find (key : nat) (d : dictionary) : natoption :=
 Theorem dictionary_invariant1' : forall (d : dictionary) (k v: nat),
   (find k (insert k v d)) = Some v.
 Proof.
- (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros. induction k.
+  simpl. reflexivity.
+  simpl. rewrite <- beq_nat_refl. reflexivity.
+Qed.
 
 (** **** Exercise: 1 star (dictionary_invariant2) *)
 (** Complete the following proof. *)
@@ -1113,10 +1115,10 @@ Proof.
 Theorem dictionary_invariant2' : forall (d : dictionary) (m n o: nat),
   beq_nat m n = false -> find m d = find m (insert n o d).
 Proof.
- (* FILL IN HERE *) Admitted.
-(** [] *)
-
-
+  intros. induction d.
+  simpl. rewrite H. reflexivity.
+  simpl. rewrite H. reflexivity.
+Qed.
 
 End Dictionary.
 
